@@ -7,23 +7,26 @@
 
 // ESTRUTURAS
 
-typedef struct cord{                                     // ESTRUTURA para coordenadas da plataforma
+typedef struct cord              // ESTRUTURA para coordenadas da plataforma
+{                                     
     int x;
     int y;
-} CORD;
+}   CORD;
 
-typedef struct plataforma{                               // ESTRUTURA com os atributos de uma plataforma.
+typedef struct plataforma       // ESTRUTURA com os atributos de uma plataforma.
+{                              
     int tam;
     int vel;
     CORD pos;
     CORD dir;
-} PLATAFORMA;
+}   PLATAFORMA;
 
-typedef struct jogador{                                 // ESTRUTURA com os atributos de um jogador.
+typedef struct jogador        // ESTRUTURA com os atributos de um jogador.
+{                                 
     int cor;
     CORD pos;
     CORD dir;
-} JOGADOR;
+}   JOGADOR;
 
 // FUNÇÃO PRINCIPAL 
 
@@ -66,8 +69,8 @@ int main(){
         desenhaPlataforma((p3));
         Sleep(50);
         desenhaJogador((j));
-        while(!GetAsyncKeyState(j.pos.y < 24)){
-
+        while(!GetAsyncKeyState(j.pos.y < 24))
+        {
             movePlataformaLR(&p, &p1);
             movePlataformaUpDown(&p3);
             Sleep(100);
@@ -88,9 +91,11 @@ void apagaPlataforma(PLATAFORMA p){                     // FUNÇÃO que imprime 
     textcolor(15);
 }
 
-void desenhaPlataforma(PLATAFORMA p){                   // FUNÇÃO que imprime, na tela, a plataforma em sua posição (x, y).
+void desenhaPlataforma(PLATAFORMA p)                    // FUNÇÃO que imprime, na tela, a plataforma em sua posição (x, y).
+{                   
     int i;
-    for(i = 0; i < p.tam; i ++){                        // Faz-se um for para imprimir o texto.
+    for(i = 0; i < p.tam; i ++)
+    {                        // Faz-se um for para imprimir o texto.
         gotoxy(p.pos.x + i, p.pos.y);
         textbackground(LIGHTRED);                       // Cor do fundo do texto.
         textcolor(LIGHTRED);                            // Cor do texto.
@@ -100,7 +105,8 @@ void desenhaPlataforma(PLATAFORMA p){                   // FUNÇÃO que imprime,
     textcolor(15);
 }
 // Escreve por cima com tudo BLACK
-void apagaJogador (JOGADOR j){
+void apagaJogador (JOGADOR j)
+{
     gotoxy(j.pos.x, j.pos.y - 1);
     textcolor(BLACK);
     printf ("%c", 220);
@@ -112,7 +118,8 @@ void apagaJogador (JOGADOR j){
  => Desenha os caracteres do corpo do personagem
  Caracter 220 => bloco preto
  Caracter 206 => box drawing*/ 
-void desenhaJogador (JOGADOR j){
+void desenhaJogador (JOGADOR j)
+{
     textcolor(j.cor);
     gotoxy(j.pos.x, j.pos.y - 1);
     printf ("%c", 220);// bloquinho preto
@@ -124,11 +131,13 @@ void movePlataformaLR(PLATAFORMA *p, PLATAFORMA *p1){    // FUNÇÃO de moviment
 
     apagaPlataforma((*p));
     apagaPlataforma((*p1));
-    if(p->pos.x + p->dir.x == 1){
+    if(p->pos.x + p->dir.x == 1)
+    {
         p->pos.x = 64;
         p->pos.y= rand() %17+5;
     }
-    if(p1->pos.x + p1->dir.x == 64){
+    if(p1->pos.x + p1->dir.x == 64)
+    {
         p1->pos.x = 1;
         p->pos.y= rand() %17+5;
     }
@@ -165,7 +174,8 @@ void movePlataformaUpDown(PLATAFORMA *p3)
     }
 }
 
-void moveJogador (JOGADOR *j, PLATAFORMA *p, PLATAFORMA *p1,  PLATAFORMA *p3){
+void moveJogador (JOGADOR *j, PLATAFORMA *p, PLATAFORMA *p1,  PLATAFORMA *p3)
+{
     int code = 3;
         apagaJogador((*j));
         if(j->cor == 15){
@@ -185,74 +195,73 @@ void moveJogador (JOGADOR *j, PLATAFORMA *p, PLATAFORMA *p1,  PLATAFORMA *p3){
         {
         code = 2;
         }
-            if(j->pos.x >= p->pos.x && j->pos.x <= p->pos.x + TAM && j->pos.y == p->pos.y -1)
-            {
-                switch (code)
-                {
-                    case 0: j->pos.y += j->dir.y; j->pos.x += j->dir.x;
-                            desenhaJogador((*j));
-                            break;
-                    case 1: j->pos.x -= j->dir.x; 
-                            if (j->pos.x != 9)
-                            {
-                                desenhaJogador((*j));
-                            }
-                            break;
-                    case 2: j->pos.x += j->dir.x - 1; 
-                            if (j->pos.x != 9)
-                            {
-                                desenhaJogador((*j));
-                            }
-                            break;
-                    case 3: j->pos.x += j->dir.x; 
-                            if (j->pos.x != 9)
-                            {
-                                desenhaJogador((*j));
-                            }
-                            break;
-                }
-            }
-            
-            if(j->pos.x >= p1->pos.x && j->pos.x <= p1->pos.x + TAM && j->pos.y == p1->pos.y -1)
-            {
-                j->dir.x *= -1;
-                switch (code)
-                {
-                    case 0: j->pos.y += j->dir.y; 
-                            j->pos.x += j->dir.x;
-                            desenhaJogador((*j));
-                            break;
-                    case 1: j->pos.x += j->dir.x +1; 
-                            if (j->pos.x != 9)
-                            {
-                                desenhaJogador((*j));
-                            }
-                            break;
-                    case 2: j->pos.x -= j->dir.x; 
-                            if (j->pos.x != 9)
-                            {
-                                desenhaJogador((*j));
-                            }
-                            break;
-                    case 3: j->pos.x += j->dir.x; 
-                            if (j->pos.x != 9)
-                            {
-                                desenhaJogador((*j));
-                            }
-                            break;
-                }
-                j->dir.x *= -1;
-            }
-            if(j->pos.x >= p3->pos.x && j->pos.x <= p3->pos.x + TAM && j->pos.y == p3->pos.y -1)
-            {
-                //??????????????????????????
-            }
+    if(j->pos.x >= p->pos.x && j->pos.x <= p->pos.x + TAM && j->pos.y == p->pos.y -1)
+    {
+        switch (code)
+        {
+            case 0: j->pos.y += j->dir.y; j->pos.x += j->dir.x;
+                    desenhaJogador((*j));
+                    break;
+            case 1: j->pos.x -= j->dir.x; 
+                    if (j->pos.x != 9)
+                    {
+                        desenhaJogador((*j));
+                    }
+                    break;
+            case 2: j->pos.x += j->dir.x - 1; 
+                    if (j->pos.x != 9)
+                    {
+                        desenhaJogador((*j));
+                    }
+                    break;
+            case 3: j->pos.x += j->dir.x; 
+                    if (j->pos.x != 9)
+                    {
+                        desenhaJogador((*j));
+                    }
+                    break;
         }
+    }
+    
+    if(j->pos.x >= p1->pos.x && j->pos.x <= p1->pos.x + TAM && j->pos.y == p1->pos.y -1)
+    {
+        j->dir.x *= -1;
+        switch (code)
+        {
+            case 0: j->pos.y += j->dir.y; 
+                    j->pos.x += j->dir.x;
+                    desenhaJogador((*j));
+                    break;
+            case 1: j->pos.x += j->dir.x +1; 
+                    if (j->pos.x != 9)
+                    {
+                        desenhaJogador((*j));
+                    }
+                    break;
+            case 2: j->pos.x -= j->dir.x; 
+                    if (j->pos.x != 9)
+                    {
+                        desenhaJogador((*j));
+                    }
+                    break;
+            case 3: j->pos.x += j->dir.x; 
+                    if (j->pos.x != 9)
+                    {
+                        desenhaJogador((*j));
+                    }
+                    break;
+        }
+        j->dir.x *= -1;
+    }
+    
+    if(j->pos.x >= p3->pos.x && j->pos.x <= p3->pos.x + TAM && j->pos.y == p3->pos.y -1)
+    {
+        //??????????????????????????
+    }
     else
     {
             apagaJogador((*j));
             j->pos.y -= j->dir.y + 3;
             desenhaJogador((*j));
-    }
     }
 }
